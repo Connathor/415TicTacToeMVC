@@ -2,7 +2,7 @@ import java.util.Scanner;
 public class Main {
 	//John W. Burris
 	//Tic-Tac-Toe. Two player.
-	//Feel free to use as a starting point for Connect 4.
+	//Feel free to use as a starting point for Connect 4. Hey
 
 	   static final int X = 1;
 	   static final int O = -1;
