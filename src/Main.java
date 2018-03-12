@@ -3,6 +3,10 @@ public class Main {
 	//John W. Burris
 	//Tic-Tac-Toe. Two player.
 	//Feel free to use as a starting point for Connect 4. Hey
+	// Model is data and data management
+	//The view renders data from the model into something appropriate for the user to see
+	//The controller receives user input and makes calls to the model and to the view to take the appropriate actions
+	//The model is made, then a view is made to present that to the user, then a controller takes input and uses the controller
 
 	   static final int X = 1;
 	   static final int O = -1;
@@ -23,6 +27,7 @@ public class Main {
 	          }
 	          // Goes to new line after printing each row
 	          System.out.println("");
+	          System.out.println("");
 	       }
 	   }
 
@@ -38,10 +43,10 @@ public class Main {
 	            sum += matrix[row][col];
 	         }
 	         //Check to see if the sum of that row was 3 or -3, a win...
-	         if( sum == 3 ){
+	         if( sum == 4 ){
 	            System.out.println("X wins.");
 	            retVal = true;
-	         } else if ( sum == -3 ) {
+	         } else if ( sum == -4 ) {
 	            System.out.println("O wins.");
 	            retVal = true;
 	         }
@@ -54,27 +59,27 @@ public class Main {
 	            sum += matrix[row][col];
 	         }
 	         //Check to see if the sum of that column was 3 or -3, a win...
-	         if( sum == 3 ){
+	         if( sum == 4 ){
 	            System.out.println("X wins.");
 	            retVal = true;
-	         } else if ( sum == -3 ) {
+	         } else if ( sum == -4 ) {
 	            System.out.println("O wins.");
 	            retVal = true;
 	         }
 	      }
 	      
 	      //Check for diagonal win
-	      if( (matrix[0][0] + matrix[1][1] + matrix[2][2]) == 3 ){
+	      if( (matrix[0][0] + matrix[1][1] + matrix[2][2] + matrix[3][3]) == 4 ){
 	         System.out.println("X wins.");
 	         retVal = true;
-	      } else if ( (matrix[0][0] + matrix[1][1] + matrix[2][2]) == -3 ) {
+	      } else if ( (matrix[0][0] + matrix[1][1] + matrix[2][2] + matrix[3][3]) == -4 ) {
 	         System.out.println("O wins.");
 	         retVal = true;
 	      }
-	      if( (matrix[0][2] + matrix[1][1] + matrix[2][0]) == 3 ){
+	      if( (matrix[0][3] + matrix[1][2] + matrix[2][1] + matrix[3][0]) == 4 ){
 	         System.out.println("X wins.");
 	         retVal = true;
-	      } else if ( (matrix[0][2] + matrix[1][1] + matrix[2][0]) == -3 ) {
+	      } else if ( (matrix[0][3] + matrix[1][2] + matrix[2][1] + matrix[3][0]) == -4 ) {
 	         System.out.println("O wins.");
 	         retVal = true;
 	      }
@@ -99,7 +104,7 @@ public class Main {
 	      Scanner input = new Scanner(System.in);
 	      
 	      //A 3x3 array stored as integers. X will be 1. O will be -1.
-	      int [][] board = new int[3][3];
+	      int [][] board = new int[4][4];
 	      
 	      while( hasWon(board) == false){
 	         
