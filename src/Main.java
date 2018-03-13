@@ -13,7 +13,7 @@ public class Main {
 			{ 0, 5, 10, 15 }, { 3, 6, 9, 12 } // diagonal wins
 	};
 
-	private static JButton buttons[] = new JButton[16]; // create 9 buttons
+	private static JButton buttons[] = new JButton[16]; // create 16 buttons
 
 	public static void main(String[] args) {
 		gamePanel(); // launch game
@@ -102,7 +102,7 @@ public class Main {
 
 	public static void clearButtons() {
 
-		for (int i = 0; i <= 15; i++) {// clear all 8 buttons
+		for (int i = 0; i <= 15; i++) {// clear all 16 buttons
 			buttons[i].setText(" ");
 		}
 		xOrO = 0; // reset the count
