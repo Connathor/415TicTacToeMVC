@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 //Taken from http://courses.washington.edu/css161/nash/slides/games/gamePak/gamePak/src/TicTacToe.java
+//Then changed to be four in a row instead of 3.
 
 public class Main {
 
