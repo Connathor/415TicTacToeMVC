@@ -1,141 +1,117 @@
-import java.util.Scanner;
+import java.awt.font.*;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+//Taken from http://courses.washington.edu/css161/nash/slides/games/gamePak/gamePak/src/TicTacToe.java
+
 public class Main {
-	//John W. Burris
-	//Tic-Tac-Toe. Two player.
-	//Feel free to use as a starting point for Connect 4. Hey
-	// Model is data and data management
-	//The view renders data from the model into something appropriate for the user to see
-	//The controller receives user input and makes calls to the model and to the view to take the appropriate actions
-	//The model is made, then a view is made to present that to the user, then a controller takes input and uses the controller
 
-	   static final int X = 1;
-	   static final int O = -1;
-	   
-	   //printBoard method that prints out the current state of the
-	   //Tic-Tac-Toe board. Does not return anything or change the board.
-	   public static void printBoard( int [][] matrix ){
-	      
-	      for( int row = 0; row < matrix.length; row++ ){
-	         for( int col = 0; col < matrix[row].length; col++ ){
-	            // Uses the "global" constants to print out appropriate letter.
-	            if( matrix[row][col] == X )
-	               System.out.print("X ");
-	            else if(matrix[row][col] == O )
-	               System.out.print("O ");
-	            else 
-	               System.out.print(". ");
-	          }
-	          // Goes to new line after printing each row
-	          System.out.println("");
-	          System.out.println("");
-	       }
-	   }
+	private static int[][] winCombinations = new int[][] {
+			{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11}, {12, 13 ,14, 15}, //horizontal wins
+			{0, 4, 8, 12}, {1, 5, 9, 13}, {2, 6, 10, 14},{3, 7, 11, 15}, //vertical wins
+			{0, 5, 10, 15}, {3, 6, 9, 12}			 //diagonal wins
+	};
+	
+	private static JButton buttons[] = new JButton[16]; //create 9 buttons
 
-	   //hasWon returns true if there was a win or a cat game.
-	   public static boolean hasWon( int [][] matrix ){
-	      //Variable holds the "result" of hasWon. True if a winner was found.
-	      boolean retVal = false;
-	      
-	      //Check for horizontal win
-	      for( int row = 0; row < matrix.length; row++ ){
-	         int sum = 0;
-	         for( int col = 0; col < matrix[0].length; col++ ){
-	            sum += matrix[row][col];
-	         }
-	         //Check to see if the sum of that row was 3 or -3, a win...
-	         if( sum == 4 ){
-	            System.out.println("X wins.");
-	            retVal = true;
-	         } else if ( sum == -4 ) {
-	            System.out.println("O wins.");
-	            retVal = true;
-	         }
-	      }
-	      
-	      //Check for vertical win
-	      for( int col = 0; col < matrix[0].length; col++ ){
-	         int sum = 0;
-	         for( int row = 0; row < matrix.length; row++ ){
-	            sum += matrix[row][col];
-	         }
-	         //Check to see if the sum of that column was 3 or -3, a win...
-	         if( sum == 4 ){
-	            System.out.println("X wins.");
-	            retVal = true;
-	         } else if ( sum == -4 ) {
-	            System.out.println("O wins.");
-	            retVal = true;
-	         }
-	      }
-	      
-	      //Check for diagonal win
-	      if( (matrix[0][0] + matrix[1][1] + matrix[2][2] + matrix[3][3]) == 4 ){
-	         System.out.println("X wins.");
-	         retVal = true;
-	      } else if ( (matrix[0][0] + matrix[1][1] + matrix[2][2] + matrix[3][3]) == -4 ) {
-	         System.out.println("O wins.");
-	         retVal = true;
-	      }
-	      if( (matrix[0][3] + matrix[1][2] + matrix[2][1] + matrix[3][0]) == 4 ){
-	         System.out.println("X wins.");
-	         retVal = true;
-	      } else if ( (matrix[0][3] + matrix[1][2] + matrix[2][1] + matrix[3][0]) == -4 ) {
-	         System.out.println("O wins.");
-	         retVal = true;
-	      }
-	      
-	      //Check for cat game
-	      boolean foundSpace = false;
-	      for( int row = 0; row < matrix.length; row++ ){
-	         for( int col = 0; col < matrix[0].length; col++ ){
-	            if( matrix[row][col] == 0 ) 
-	               foundSpace = true;
-	         }
-	      }
-	      if( foundSpace == false ){
-	         System.out.println("Ends in tie.");
-	         retVal = true;
-	      }
-	      
-	      return retVal;
-	   }
-	   
-	   public static void main (String [] args) {
-	      Scanner input = new Scanner(System.in);
-	      
-	      //A 3x3 array stored as integers. X will be 1. O will be -1.
-	      int [][] board = new int[4][4];
-	      
-	      while( hasWon(board) == false){
-	         
-	         //Get the X player input and make the change if not taken.
-	         System.out.print("X, enter row: ");
-	         int row = input.nextInt();
-	         System.out.print("X, enter column: ");
-	         int col = input.nextInt();
-	         if( board[row][col] == 0 )
-	            board[row][col] = X;
-	            
-	         printBoard(board);
-	         
-	         //Check to see if X's move won the game. If so, break out of game loop
-	         if( hasWon(board) == true )
-	            break;
-	         
-	         //Get the O player input and make the change if not taken.
-	         System.out.print("O, enter row: ");
-	         row = input.nextInt();
-	         System.out.print("O, enter column: ");
-	         col = input.nextInt();
-	         if( board[row][col] == 0 )
-	            board[row][col] = O;
-	         
-	         printBoard(board);
-	         
-	      }
-	      
-	      System.out.println("Game over.");
-	   }
+
+
+	public static void main (String[] args)
+	{
+		gamePanel(); //launch game
 	}
+	
+	private static void gamePanel(){
+		JFrame frame = new JFrame ("Tic Tac Toe");
+		frame.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
+
+
+		JPanel panel = new JPanel(); //creating a panel with a box like a tic tac toe board
+		panel.setLayout (new GridLayout (4, 4));
+		panel.setBorder (BorderFactory.createLineBorder (Color.gray, 3));
+		panel.setBackground (Color.white);
+
+		for(int i=0; i<=15; i++){ //placing the button onto the board
+			buttons[i] = new MyButton();
+			panel.add(buttons[i]);			
+		}
+
+		frame.getContentPane().add (panel);
+		frame.pack();
+		frame.setVisible(true);
+		frame.setSize(700, 700);// set frame size and let teh game begin
+	}
+
+	public static int xOrO=0; // used for counting
+
+	private static class MyButton extends JButton 
+	implements ActionListener {//creating own button class because JButton sucks:)
+		
+		int again=1000;//set again at 1000 so we don't make the mistake we can play again
+		boolean win=false; // there is not a win
+		String letter; // x or o
+		public MyButton() {	// creating blank board
+			super();
+			letter=" ";
+			setFont(new Font("Dialog", 1, 60));
+			setText(letter);
+			addActionListener(this);
+		}
+		public void actionPerformed(ActionEvent e) { // placing x or o's
+			if((xOrO%2)==0 && getText().equals(" ") && win==false){
+				letter="X";
+				xOrO=xOrO+1;
+				System.out.println(letter + "\n"+xOrO);
+			} else if((xOrO%2)==1 && getText().equals(" ") && win==false) {
+				letter="O";
+				xOrO=xOrO+1;
+				System.out.println(letter + "\n"+xOrO);
+			} // if user does click on a button that is already played, nothing will happen
+			
+			setText(letter); // place the x or the o on the actual board
+
+			
+			for(int i=0; i<=9; i++){ // check for the winning combinations
+				if( buttons[winCombinations[i][0]].getText().equals(buttons[winCombinations[i][1]].getText()) && 
+					buttons[winCombinations[i][1]].getText().equals(buttons[winCombinations[i][2]].getText()) &&
+					buttons[winCombinations[i][2]].getText().equals(buttons[winCombinations[i][3]].getText()) &&
+					buttons[winCombinations[i][0]].getText() != " "){//the winning is true
+					win = true;
+				}
+			}
+			
+			if(win == true){ // if the game ends let the user know who wins and give option to play again
+				again=JOptionPane.showConfirmDialog(null, letter + " wins the game!  Do you want to play again?",letter + "won!",JOptionPane.YES_NO_OPTION);
+				
+			} else if(xOrO == 16 && win == false){//tie game, announce and ask if the user want to play again
+				again=JOptionPane.showConfirmDialog(null, "The game was tie!  Do you want to play again?","Tie game!",JOptionPane.YES_NO_OPTION);
+				win=true;
+			}	
+			
+			if(again==JOptionPane.YES_OPTION && win==true){ // if the user want to play again clear all the button and start over
+					clearButtons();			
+					win=false;
+			}
+			else if(again==JOptionPane.NO_OPTION){
+				System.exit(0); // exit game if the user do not want to play again
+			}
+
+
+
+
+		}
+
+	}
+	
+	public static void clearButtons(){
+		
+		for(int i=0; i<=15; i++){// clear all 8 buttons
+			buttons[i].setText(" ");						
+		}
+		xOrO=0; // reset the count
+		
+	}
+
+}
 
 
