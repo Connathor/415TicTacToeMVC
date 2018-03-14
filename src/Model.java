@@ -3,7 +3,7 @@ public class Model {
 
     static final int X = 1;
     static final int O = -1;
-    static int [][] matrix = new int[4][44];
+    static int [][] matrix = new int[4][4];
     static int xOrO = 1;
     static boolean hasWon;
     static boolean win;
@@ -45,17 +45,17 @@ public class Model {
         }
         
         //Check for diagonal win
-        if( (matrix[0][0] + matrix[1][1] + matrix[2][2]) == 3 ){
+        if( (matrix[0][0] + matrix[1][1] + matrix[2][2] + matrix[3][3]) == 4 ){
            System.out.println("X wins.");
            retVal = true;
-        } else if ( (matrix[0][0] + matrix[1][1] + matrix[2][2]) == -3 ) {
+        } else if ( (matrix[0][0] + matrix[1][1] + matrix[2][2] + matrix[3][3]) == -4 ) {
            System.out.println("O wins.");
            retVal = true;
         }
-        if( (matrix[0][2] + matrix[1][1] + matrix[2][0]) == 3 ){
+        if( (matrix[0][3] + matrix[1][2] + matrix[2][1] + matrix[3][0]) == 4 ){
            System.out.println("X wins.");
            retVal = true;
-        } else if ( (matrix[0][2] + matrix[1][1] + matrix[2][0]) == -3 ) {
+        } else if( (matrix[0][3] + matrix[1][2] + matrix[2][1] + matrix[3][0]) == -4 ) {
            System.out.println("O wins.");
            retVal = true;
         }
